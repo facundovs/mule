@@ -80,7 +80,7 @@ public abstract class AbstractMessageProcessorChain extends AbstractAnnotatedObj
         .execute();
   }
 
-  protected List<Processor> getProcessorsToExecute(){
+  protected List<Processor> getProcessorsToExecute() {
     return processors;
   }
 
