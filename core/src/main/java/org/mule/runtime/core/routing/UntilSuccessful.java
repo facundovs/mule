@@ -6,21 +6,28 @@
  */
 package org.mule.runtime.core.routing;
 
+import static org.mule.runtime.core.api.lifecycle.LifecycleUtils.setFlowConstructIfNeeded;
+import static org.mule.runtime.core.api.lifecycle.LifecycleUtils.setMuleContextIfNeeded;
 import org.mule.runtime.core.api.Event;
+import org.mule.runtime.core.api.MuleContext;
 import org.mule.runtime.core.api.MuleException;
 import org.mule.runtime.core.api.config.ThreadingProfile;
+import org.mule.runtime.core.api.construct.FlowConstruct;
 import org.mule.runtime.core.api.context.MuleContextAware;
 import org.mule.runtime.core.api.exception.MessagingExceptionHandlerAware;
 import org.mule.runtime.core.api.lifecycle.Initialisable;
 import org.mule.runtime.core.api.lifecycle.InitialisationException;
+import org.mule.runtime.core.api.lifecycle.LifecycleUtils;
 import org.mule.runtime.core.api.lifecycle.Startable;
 import org.mule.runtime.core.api.lifecycle.Stoppable;
+import org.mule.runtime.core.api.processor.MessageProcessorChain;
+import org.mule.runtime.core.api.processor.MessageProcessors;
 import org.mule.runtime.core.api.processor.Processor;
 import org.mule.runtime.core.api.store.ListableObjectStore;
 import org.mule.runtime.core.config.i18n.I18nMessageFactory;
-import org.mule.runtime.core.processor.chain.DefaultMessageProcessorChain;
 import org.mule.runtime.core.routing.filters.ExpressionFilter;
 import org.mule.runtime.core.routing.outbound.AbstractOutboundRouter;
+import org.mule.runtime.core.util.NotificationUtils;
 import org.mule.runtime.core.util.Preconditions;
 import org.mule.runtime.core.util.concurrent.NamedThreadFactory;
 
@@ -265,7 +272,8 @@ public class UntilSuccessful extends AbstractOutboundRouter implements UntilSucc
 
   @Override
   public Processor getRoute() {
-    final DefaultMessageProcessorChain chain = DefaultMessageProcessorChain.from(muleContext, routes.get(0));
+    final MessageProcessorChain chain = MessageProcessors.newChain(routes.get(0));
+    chain.setMuleContext(muleContext);
     chain.setFlowConstruct(flowConstruct);
     return chain;
   }
@@ -280,3 +288,4 @@ public class UntilSuccessful extends AbstractOutboundRouter implements UntilSucc
   }
 
 }
+

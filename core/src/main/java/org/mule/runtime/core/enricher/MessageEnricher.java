@@ -26,7 +26,6 @@ import org.mule.runtime.core.metadata.DefaultTypedValue;
 import org.mule.runtime.core.processor.AbstractMessageProcessorOwner;
 import org.mule.runtime.core.processor.AbstractRequestResponseMessageProcessor;
 import org.mule.runtime.core.processor.NonBlockingMessageProcessor;
-import org.mule.runtime.core.processor.chain.InterceptingChainLifecycleWrapper;
 import org.mule.runtime.core.session.DefaultMuleSession;
 import org.mule.runtime.core.util.StringUtils;
 
@@ -95,7 +94,7 @@ public class MessageEnricher extends AbstractMessageProcessorOwner implements No
 
   public void setEnrichmentMessageProcessor(Processor enrichmentProcessor) {
     if (!(enrichmentProcessor instanceof MessageProcessorChain)) {
-      this.enrichmentProcessor = MessageProcessors.singletonChain(muleContext, enrichmentProcessor);
+      this.enrichmentProcessor = MessageProcessors.newChain(enrichmentProcessor);
       ((MuleContextAware) this.enrichmentProcessor).setMuleContext(muleContext);
     } else {
       this.enrichmentProcessor = enrichmentProcessor;
@@ -159,11 +158,7 @@ public class MessageEnricher extends AbstractMessageProcessorOwner implements No
 
   @Override
   public void addMessageProcessorPathElements(MessageProcessorPathElement pathElement) {
-    if (enrichmentProcessor instanceof InterceptingChainLifecycleWrapper) {
-      super.addMessageProcessorPathElements(pathElement);
-    } else {
-      ((MessageProcessorContainer) enrichmentProcessor).addMessageProcessorPathElements(pathElement);
-    }
+    ((MessageProcessorContainer) enrichmentProcessor).addMessageProcessorPathElements(pathElement.addChild(this));
   }
 
   /**

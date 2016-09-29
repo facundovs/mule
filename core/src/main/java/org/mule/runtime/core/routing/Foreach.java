@@ -17,13 +17,13 @@ import org.mule.runtime.core.api.MuleException;
 import org.mule.runtime.core.api.message.InternalMessage;
 import org.mule.runtime.core.api.lifecycle.Initialisable;
 import org.mule.runtime.core.api.lifecycle.InitialisationException;
+import org.mule.runtime.core.api.processor.MessageProcessors;
 import org.mule.runtime.core.api.processor.Processor;
 import org.mule.runtime.core.api.processor.MessageProcessorPathElement;
 import org.mule.runtime.core.api.transformer.TransformerException;
 import org.mule.runtime.core.exception.MessagingException;
 import org.mule.runtime.core.expression.ExpressionConfig;
 import org.mule.runtime.core.processor.AbstractMessageProcessorOwner;
-import org.mule.runtime.core.processor.chain.DefaultMessageProcessorChain;
 import org.mule.runtime.core.processor.chain.DefaultMessageProcessorChainBuilder;
 import org.mule.runtime.core.routing.outbound.AbstractMessageSequenceSplitter;
 import org.mule.runtime.core.routing.outbound.CollectionMessageSequence;
@@ -146,7 +146,7 @@ public class Foreach extends AbstractMessageProcessorOwner implements Initialisa
 
   @Override
   public void addMessageProcessorPathElements(MessageProcessorPathElement pathElement) {
-    NotificationUtils.addMessageProcessorPathElements(messageProcessors, pathElement);
+    NotificationUtils.addMessageProcessorPathElements(messageProcessors, pathElement.addChild(this));
   }
 
   public void setMessageProcessors(List<Processor> messageProcessors) throws MuleException {
@@ -183,15 +183,10 @@ public class Foreach extends AbstractMessageProcessorOwner implements Initialisa
     splitter.setCounterVariableName(counterVariableName);
     splitter.setMuleContext(muleContext);
 
-    try {
-
-      List<Processor> chainProcessors = new ArrayList<>();
-      chainProcessors.add(splitter);
-      chainProcessors.add(DefaultMessageProcessorChain.from(muleContext, messageProcessors));
-      ownedMessageProcessor = new DefaultMessageProcessorChainBuilder(muleContext).chain(chainProcessors).build();
-    } catch (MuleException e) {
-      throw new InitialisationException(e, this);
-    }
+    List<Processor> chainProcessors = new ArrayList<>();
+    chainProcessors.add(splitter);
+    chainProcessors.add(MessageProcessors.newChain(messageProcessors));
+    ownedMessageProcessor = new DefaultMessageProcessorChainBuilder().chain(chainProcessors).build();
     super.initialise();
   }
 

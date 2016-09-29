@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.core.exception;
 
+import static org.mule.runtime.core.api.processor.MessageProcessors.newChain;
 import org.mule.runtime.core.VoidMuleEvent;
 import org.mule.runtime.core.api.Event;
 import org.mule.runtime.core.api.MuleException;
@@ -14,6 +15,7 @@ import org.mule.runtime.core.api.construct.FlowConstruct;
 import org.mule.runtime.core.api.construct.FlowConstructAware;
 import org.mule.runtime.core.api.lifecycle.Initialisable;
 import org.mule.runtime.core.api.lifecycle.InitialisationException;
+import org.mule.runtime.core.api.processor.MessageProcessors;
 import org.mule.runtime.core.api.processor.Processor;
 import org.mule.runtime.core.api.processor.MessageProcessorChain;
 import org.mule.runtime.core.processor.chain.DefaultMessageProcessorChainBuilder;
@@ -30,13 +32,7 @@ public class RedeliveryExceeded implements FlowConstructAware, Initialisable {
 
   @Override
   public void initialise() throws InitialisationException {
-    DefaultMessageProcessorChainBuilder defaultMessageProcessorChainBuilder =
-        new DefaultMessageProcessorChainBuilder(this.flowConstruct);
-    try {
-      configuredMessageProcessors = defaultMessageProcessorChainBuilder.chain(messageProcessors).build();
-    } catch (MuleException e) {
-      throw new InitialisationException(e, this);
-    }
+    configuredMessageProcessors = newChain(messageProcessors);
   }
 
   public List<Processor> getMessageProcessors() {
