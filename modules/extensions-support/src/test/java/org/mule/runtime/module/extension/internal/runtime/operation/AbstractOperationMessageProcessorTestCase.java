@@ -182,7 +182,7 @@ public abstract class AbstractOperationMessageProcessorTestCase extends Abstract
 
     when(operationModel.getMetadataResolverFactory()).thenReturn(metadataResolverFactory);
     when(metadataResolverFactory.getKeyResolver()).thenReturn(new TestNoConfigMetadataResolver());
-    when(metadataResolverFactory.getContentResolver()).thenReturn(new TestNoConfigMetadataResolver());
+    when(metadataResolverFactory.getInputResolver()).thenReturn(new TestNoConfigMetadataResolver());
     when(metadataResolverFactory.getOutputResolver()).thenReturn(new TestNoConfigMetadataResolver());
     when(metadataResolverFactory.getOutputAttributesResolver()).thenReturn(new TestNoConfigMetadataResolver());
 

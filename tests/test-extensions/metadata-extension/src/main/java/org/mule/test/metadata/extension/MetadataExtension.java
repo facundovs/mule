@@ -24,7 +24,7 @@ import org.mule.test.metadata.extension.model.shapes.Circle;
 import org.mule.test.metadata.extension.model.shapes.Rectangle;
 import org.mule.test.metadata.extension.model.shapes.Shape;
 import org.mule.test.metadata.extension.model.shapes.Square;
-import org.mule.test.metadata.extension.resolver.TestContentAndOutputResolverWithKeyResolver;
+import org.mule.test.metadata.extension.resolver.TestInputAndOutputResolverWithKeyResolver;
 
 @Extension(name = "Metadata")
 @Operations({MetadataOperations.class, MetadataFailureOperations.class, MetadataInheritedExtensionResolversOperations.class,
@@ -37,9 +37,9 @@ import org.mule.test.metadata.extension.resolver.TestContentAndOutputResolverWit
     subTypes = {AnimalsOutputAttributes.class, ShapeOutputAttributes.class})
 @SubTypeMapping(baseType = Rectangle.class, subTypes = {Square.class})
 @Xml(namespaceLocation = "http://www.mulesoft.org/schema/mule/metadata", namespace = "metadata")
-@MetadataScope(keysResolver = TestContentAndOutputResolverWithKeyResolver.class,
-    contentResolver = TestContentAndOutputResolverWithKeyResolver.class,
-    outputResolver = TestContentAndOutputResolverWithKeyResolver.class)
+@MetadataScope(keysResolver = TestInputAndOutputResolverWithKeyResolver.class,
+    inputResolver = TestInputAndOutputResolverWithKeyResolver.class,
+    outputResolver = TestInputAndOutputResolverWithKeyResolver.class)
 public class MetadataExtension {
 
   @Parameter

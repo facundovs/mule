@@ -11,16 +11,16 @@ import org.mule.runtime.api.metadata.MetadataContext;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataKeyBuilder;
 import org.mule.runtime.api.metadata.MetadataResolvingException;
-import org.mule.runtime.api.metadata.resolving.MetadataKeysResolver;
+import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
 
 import com.google.common.collect.ImmutableSet;
 
 import java.util.Set;
 
-public class HarvestAppleKeyResolver implements MetadataKeysResolver {
+public class HarvestAppleKeyResolver implements TypeKeysResolver {
 
   @Override
-  public Set<MetadataKey> getMetadataKeys(MetadataContext context) throws MetadataResolvingException, ConnectionException {
+  public Set<MetadataKey> getKeys(MetadataContext context) throws MetadataResolvingException, ConnectionException {
     return ImmutableSet.of(MetadataKeyBuilder.newKey("HARVESTED").build());
   }
 

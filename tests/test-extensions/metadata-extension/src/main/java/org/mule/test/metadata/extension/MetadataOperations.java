@@ -12,6 +12,8 @@ import org.mule.runtime.extension.api.annotation.Query;
 import org.mule.runtime.extension.api.annotation.metadata.Content;
 import org.mule.runtime.extension.api.annotation.metadata.MetadataKeyId;
 import org.mule.runtime.extension.api.annotation.metadata.MetadataScope;
+import org.mule.runtime.extension.api.annotation.metadata.OutputResolver;
+import org.mule.runtime.extension.api.annotation.metadata.TypeResolver;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.UseConfig;
@@ -28,11 +30,13 @@ import org.mule.test.metadata.extension.query.MetadataExtensionEntityResolver;
 import org.mule.test.metadata.extension.query.MetadataExtensionQueryTranslator;
 import org.mule.test.metadata.extension.query.NativeQueryOutputResolver;
 import org.mule.test.metadata.extension.resolver.TestBooleanMetadataResolver;
-import org.mule.test.metadata.extension.resolver.TestContentAndOutputResolverWithKeyResolver;
-import org.mule.test.metadata.extension.resolver.TestContentAndOutputResolverWithoutKeyResolverAndKeyIdParam;
-import org.mule.test.metadata.extension.resolver.TestContentResolverWithKeyResolver;
-import org.mule.test.metadata.extension.resolver.TestContentResolverWithoutKeyResolver;
 import org.mule.test.metadata.extension.resolver.TestEnumMetadataResolver;
+import org.mule.test.metadata.extension.resolver.TestInputAndOutputResolverWithKeyResolver;
+import org.mule.test.metadata.extension.resolver.TestInputAndOutputResolverWithoutKeyResolverAndKeyIdParam;
+import org.mule.test.metadata.extension.resolver.TestInputResolver;
+import org.mule.test.metadata.extension.resolver.TestInputResolverWithKeyResolver;
+import org.mule.test.metadata.extension.resolver.TestInputResolverWithoutKeyResolver;
+import org.mule.test.metadata.extension.resolver.TestKeyResolver;
 import org.mule.test.metadata.extension.resolver.TestMultiLevelKeyResolver;
 import org.mule.test.metadata.extension.resolver.TestOutputAnyTypeResolver;
 import org.mule.test.metadata.extension.resolver.TestOutputAttributesResolverWithKeyResolver;
@@ -46,13 +50,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-@MetadataScope(keysResolver = TestContentAndOutputResolverWithKeyResolver.class,
-    contentResolver = TestContentAndOutputResolverWithKeyResolver.class,
-    outputResolver = TestContentAndOutputResolverWithKeyResolver.class)
+@MetadataScope(keysResolver = TestInputAndOutputResolverWithKeyResolver.class,
+    inputResolver = TestInputAndOutputResolverWithKeyResolver.class,
+    outputResolver = TestInputAndOutputResolverWithKeyResolver.class)
 public class MetadataOperations extends MetadataOperationsParent {
 
-  @MetadataScope(keysResolver = TestContentResolverWithKeyResolver.class,
-      contentResolver = TestContentResolverWithKeyResolver.class, outputResolver = TestOutputAnyTypeResolver.class)
+  @MetadataScope(keysResolver = TestInputResolverWithKeyResolver.class,
+      inputResolver = TestInputResolverWithKeyResolver.class, outputResolver = TestOutputAnyTypeResolver.class)
   public Object contentMetadataWithKeyId(@UseConfig Object object, @Connection MetadataConnection connection,
                                          @MetadataKeyId String type,
                                          @Optional @Content Object content) {
@@ -72,58 +76,58 @@ public class MetadataOperations extends MetadataOperationsParent {
     return type;
   }
 
-  @MetadataScope(keysResolver = TestContentAndOutputResolverWithKeyResolver.class,
-      contentResolver = TestContentAndOutputResolverWithKeyResolver.class,
-      outputResolver = TestContentAndOutputResolverWithKeyResolver.class)
+  @MetadataScope(keysResolver = TestInputAndOutputResolverWithKeyResolver.class,
+      inputResolver = TestInputAndOutputResolverWithKeyResolver.class,
+      outputResolver = TestInputAndOutputResolverWithKeyResolver.class)
   public Object contentAndOutputMetadataWithKeyId(@Connection MetadataConnection connection, @MetadataKeyId String type,
                                                   @Optional @Content Object content) {
     return null;
   }
 
-  @MetadataScope(keysResolver = TestContentAndOutputResolverWithKeyResolver.class,
-      contentResolver = TestContentAndOutputResolverWithKeyResolver.class,
-      outputResolver = TestContentAndOutputResolverWithKeyResolver.class)
+  @MetadataScope(keysResolver = TestInputAndOutputResolverWithKeyResolver.class,
+      inputResolver = TestInputAndOutputResolverWithKeyResolver.class,
+      outputResolver = TestInputAndOutputResolverWithKeyResolver.class)
   public Object outputOnlyWithoutContentParam(@Connection MetadataConnection connection, @MetadataKeyId String type) {
     return type;
   }
 
-  @MetadataScope(contentResolver = TestBooleanMetadataResolver.class)
+  @MetadataScope(inputResolver = TestBooleanMetadataResolver.class)
   public boolean booleanMetadataKey(@Connection MetadataConnection connection, @MetadataKeyId boolean type,
                                     @Optional @Content Object content) {
     return type;
   }
 
-  @MetadataScope(contentResolver = TestEnumMetadataResolver.class)
+  @MetadataScope(inputResolver = TestEnumMetadataResolver.class)
   public AnimalClade enumMetadataKey(@Connection MetadataConnection connection, @MetadataKeyId AnimalClade type,
                                      @Optional @Content Object content) {
     return type;
   }
 
-  @MetadataScope(keysResolver = TestContentAndOutputResolverWithKeyResolver.class,
-      contentResolver = TestContentAndOutputResolverWithKeyResolver.class,
-      outputResolver = TestContentAndOutputResolverWithKeyResolver.class)
+  @MetadataScope(keysResolver = TestInputAndOutputResolverWithKeyResolver.class,
+      inputResolver = TestInputAndOutputResolverWithKeyResolver.class,
+      outputResolver = TestInputAndOutputResolverWithKeyResolver.class)
   public void contentOnlyIgnoresOutput(@Connection MetadataConnection connection, @MetadataKeyId String type,
                                        @Optional @Content Object content) {}
 
-  @MetadataScope(contentResolver = TestContentAndOutputResolverWithoutKeyResolverAndKeyIdParam.class,
+  @MetadataScope(inputResolver = TestInputAndOutputResolverWithoutKeyResolverAndKeyIdParam.class,
       outputResolver = TestOutputAnyTypeResolver.class)
   public Object contentMetadataWithoutKeyId(@Connection MetadataConnection connection, @Optional @Content Object content) {
     return null;
   }
 
-  @MetadataScope(outputResolver = TestContentAndOutputResolverWithoutKeyResolverAndKeyIdParam.class)
+  @MetadataScope(outputResolver = TestInputAndOutputResolverWithoutKeyResolverAndKeyIdParam.class)
   public Object outputMetadataWithoutKeyId(@Connection MetadataConnection connection, @Optional @Content Object content) {
     return null;
   }
 
-  @MetadataScope(contentResolver = TestContentAndOutputResolverWithoutKeyResolverAndKeyIdParam.class,
-      outputResolver = TestContentAndOutputResolverWithoutKeyResolverAndKeyIdParam.class)
+  @MetadataScope(inputResolver = TestInputAndOutputResolverWithoutKeyResolverAndKeyIdParam.class,
+      outputResolver = TestInputAndOutputResolverWithoutKeyResolverAndKeyIdParam.class)
   public Object contentAndOutputMetadataWithoutKeyId(@Connection MetadataConnection connection,
                                                      @Optional @Content Object content) {
     return null;
   }
 
-  @MetadataScope(contentResolver = TestContentResolverWithoutKeyResolver.class)
+  @MetadataScope(inputResolver = TestInputResolverWithoutKeyResolver.class)
   public void contentMetadataWithoutKeysWithKeyId(@Connection MetadataConnection connection, @MetadataKeyId String type,
                                                   @Optional @Content Object content) {}
 
@@ -132,7 +136,7 @@ public class MetadataOperations extends MetadataOperationsParent {
     return null;
   }
 
-  @MetadataScope(outputResolver = TestResolverWithCache.class, contentResolver = TestResolverWithCache.class)
+  @MetadataScope(outputResolver = TestResolverWithCache.class, inputResolver = TestResolverWithCache.class)
   public Object contentAndOutputCacheResolver(@Connection MetadataConnection connection, @MetadataKeyId String type,
                                               @Optional @Content Object content) {
     return null;
@@ -143,7 +147,7 @@ public class MetadataOperations extends MetadataOperationsParent {
     return null;
   }
 
-  @MetadataScope(contentResolver = TestResolverWithCache.class, outputResolver = TestOutputAnyTypeResolver.class)
+  @MetadataScope(inputResolver = TestResolverWithCache.class, outputResolver = TestOutputAnyTypeResolver.class)
   public Object contentOnlyCacheResolver(@Connection MetadataConnection connection, @MetadataKeyId String type,
                                          @Optional @Content Object content) {
     return null;
@@ -154,7 +158,7 @@ public class MetadataOperations extends MetadataOperationsParent {
     return null;
   }
 
-  @MetadataScope(keysResolver = TestMultiLevelKeyResolver.class, contentResolver = TestMultiLevelKeyResolver.class)
+  @MetadataScope(keysResolver = TestMultiLevelKeyResolver.class, inputResolver = TestMultiLevelKeyResolver.class)
   public LocationKey simpleMultiLevelKeyResolver(@Connection MetadataConnection connection,
                                                  @ParameterGroup @MetadataKeyId LocationKey locationKey,
                                                  @Optional @Content Object content) {
@@ -174,7 +178,7 @@ public class MetadataOperations extends MetadataOperationsParent {
   @MetadataScope(keysResolver = TestThreadContextClassLoaderResolver.class)
   public void resolverTypeKeysWithContextClassLoader(@MetadataKeyId String type) {}
 
-  @MetadataScope(contentResolver = TestThreadContextClassLoaderResolver.class)
+  @MetadataScope(inputResolver = TestThreadContextClassLoaderResolver.class)
   public void resolverContentWithContextClassLoader(@Optional @Content Object content, @MetadataKeyId String type) {}
 
   @MetadataScope(outputResolver = TestThreadContextClassLoaderResolver.class)
@@ -182,10 +186,12 @@ public class MetadataOperations extends MetadataOperationsParent {
     return null;
   }
 
-  @MetadataScope(keysResolver = TestOutputAttributesResolverWithKeyResolver.class,
-      outputResolver = TestOutputAttributesResolverWithKeyResolver.class,
-      attributesResolver = TestOutputAttributesResolverWithKeyResolver.class)
-  public OperationResult<Object, AbstractOutputAttributes> outputAttributesWithDynamicMetadata(@MetadataKeyId String type) {
+  //@MetadataScope(keysResolver = TestOutputAttributesResolverWithKeyResolver.class,
+  //    outputResolver = TestOutputAttributesResolverWithKeyResolver.class,
+  //    attributesResolver = TestOutputAttributesResolverWithKeyResolver.class)
+  @OutputResolver(TestOutputAttributesResolverWithKeyResolver.class)
+  public OperationResult<Object, AbstractOutputAttributes> outputAttributesWithDynamicMetadata(
+    @MetadataKeyId(TestOutputAttributesResolverWithKeyResolver.class) String type) {
     return null;
   }
 
@@ -194,14 +200,22 @@ public class MetadataOperations extends MetadataOperationsParent {
     return false;
   }
 
-  @MetadataScope(contentResolver = TestContentResolverWithoutKeyResolver.class)
+  @MetadataScope(inputResolver = TestInputResolverWithoutKeyResolver.class)
   public void contentParameterShouldNotGenerateMapChildElement(@Content Map<String, Object> mapContent) {}
 
-  @MetadataScope(contentResolver = TestContentResolverWithoutKeyResolver.class)
+  @MetadataScope(inputResolver = TestInputResolverWithoutKeyResolver.class)
   public void contentParameterShouldNotGenerateListChildElement(@Content List<String> listContent) {}
 
-  @MetadataScope(contentResolver = TestContentResolverWithoutKeyResolver.class)
+  @MetadataScope(inputResolver = TestInputResolverWithoutKeyResolver.class)
   public void contentParameterShouldNotGeneratePojoChildElement(@Content Bear animalContent) {}
+
+
+
+  @MetadataScope(keysResolver = TestKeyResolver.class)
+  public void notContentWithInputMetadata(@MetadataKeyId String key, @TypeResolver(TestInputResolver.class) Bear animal) {}
+
+
+
 
   @Query(translator = MetadataExtensionQueryTranslator.class,
       entityResolver = MetadataExtensionEntityResolver.class,

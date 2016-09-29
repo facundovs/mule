@@ -7,7 +7,7 @@
 package org.mule.runtime.module.extension.internal.introspection.enricher;
 
 import static java.lang.Thread.currentThread;
-import static org.mule.runtime.module.extension.internal.util.IntrospectionUtils.getAnnotation;
+import static org.mule.runtime.module.extension.internal.util.IntrospectionUtils.getAnnotatedElement;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.core.internal.metadata.DefaultMetadataResolverFactory;
@@ -34,15 +34,14 @@ import org.mule.runtime.extension.api.introspection.property.MetadataContentMode
 import org.mule.runtime.extension.api.introspection.property.MetadataKeyIdModelProperty;
 import org.mule.runtime.extension.api.introspection.property.MetadataKeyPartModelProperty;
 import org.mule.runtime.extension.api.introspection.property.QueryOperationModelProperty;
-import org.mule.runtime.module.extension.internal.model.property.QueryParameterModelProperty;
 import org.mule.runtime.module.extension.internal.introspection.describer.model.runtime.ParameterWrapper;
 import org.mule.runtime.module.extension.internal.metadata.MetadataScopeAdapter;
 import org.mule.runtime.module.extension.internal.metadata.QueryMetadataResolverFactory;
-import org.mule.runtime.module.extension.internal.model.property.DeclaringMemberModelProperty;
 import org.mule.runtime.module.extension.internal.model.property.ImplementingMethodModelProperty;
 import org.mule.runtime.module.extension.internal.model.property.ImplementingParameterModelProperty;
 import org.mule.runtime.module.extension.internal.model.property.ImplementingTypeModelProperty;
 import org.mule.runtime.module.extension.internal.model.property.ParameterGroupModelProperty;
+import org.mule.runtime.module.extension.internal.model.property.QueryParameterModelProperty;
 import org.mule.runtime.module.extension.internal.util.IdempotentDeclarationWalker;
 
 import java.lang.reflect.AnnotatedElement;
@@ -97,11 +96,9 @@ public class DynamicMetadataModelEnricher extends AbstractAnnotatedModelEnricher
   }
 
   private void enrichSourceMetadata(SourceDeclaration sourceDeclaration) {
-    final Optional<ImplementingTypeModelProperty> modelProperty =
-        sourceDeclaration.getModelProperty(ImplementingTypeModelProperty.class);
-    if (modelProperty.isPresent()) {
-      final Class<?> operationMethod = modelProperty.get().getType();
-      MetadataScopeAdapter metadataScope = new MetadataScopeAdapter(getMetadataScope(operationMethod));
+    sourceDeclaration.getModelProperty(ImplementingTypeModelProperty.class).ifPresent(prop -> {
+      final Class<?> sourceType = prop.getType();
+      MetadataScopeAdapter metadataScope = new MetadataScopeAdapter(extensionType, sourceType);
       MetadataResolverFactory metadataResolverFactory = getMetadataResolverFactory(metadataScope);
       sourceDeclaration.setMetadataResolverFactory(metadataResolverFactory);
 
@@ -109,7 +106,7 @@ public class DynamicMetadataModelEnricher extends AbstractAnnotatedModelEnricher
         declareOutput(sourceDeclaration.getOutput(), sourceDeclaration.getOutputAttributes(), metadataScope);
         declareComponentMetadataKeyId(sourceDeclaration);
       }
-    }
+    });
   }
 
   private void enrichOperationMetadata(OperationDeclaration declaration) {
@@ -118,14 +115,9 @@ public class DynamicMetadataModelEnricher extends AbstractAnnotatedModelEnricher
           final Method method = prop.getMethod();
 
           if (method.isAnnotationPresent(Query.class)) {
-            Query query = method.getAnnotation(Query.class);
-            declaration.setMetadataResolverFactory(new QueryMetadataResolverFactory(query.nativeOutputResolver(),
-                                                                                    query.entityResolver()));
-            addQueryModelProperties(declaration, query);
-            declareOutputType(declaration.getOutput());
-            declareComponentMetadataKeyId(declaration);
+            enrichWithDsql(declaration, method);
           } else {
-            MetadataScopeAdapter metadataScope = new MetadataScopeAdapter(getMetadataScope(method));
+            MetadataScopeAdapter metadataScope = new MetadataScopeAdapter(extensionType, method, declaration);
             MetadataResolverFactory metadataResolverFactory = getMetadataResolverFactory(metadataScope);
             declaration.setMetadataResolverFactory(metadataResolverFactory);
 
@@ -136,6 +128,15 @@ public class DynamicMetadataModelEnricher extends AbstractAnnotatedModelEnricher
             }
           }
         });
+  }
+
+  private void enrichWithDsql(OperationDeclaration declaration, Method method) {
+    Query query = method.getAnnotation(Query.class);
+    declaration.setMetadataResolverFactory(new QueryMetadataResolverFactory(query.nativeOutputResolver(),
+                                                                            query.entityResolver()));
+    addQueryModelProperties(declaration, query);
+    declareOutputType(declaration.getOutput());
+    declareComponentMetadataKeyId(declaration);
   }
 
 
@@ -166,18 +167,9 @@ public class DynamicMetadataModelEnricher extends AbstractAnnotatedModelEnricher
     }
   }
 
-  private MetadataScope getMetadataScope(Method method) {
-    MetadataScope scope = method.getAnnotation(MetadataScope.class);
-    return scope != null ? scope : getMetadataScope(method.getDeclaringClass());
-  }
-
-  private MetadataScope getMetadataScope(Class<?> source) {
-    MetadataScope scope = getAnnotation(source, MetadataScope.class);
-    return scope != null ? scope : getAnnotation(extensionType, MetadataScope.class);
-  }
-
   private MetadataResolverFactory getMetadataResolverFactory(MetadataScopeAdapter scope) {
-    return scope.isCustomScope() ? new DefaultMetadataResolverFactory(scope.getKeysResolver(), scope.getContentResolver(),
+
+    return scope.isCustomScope() ? new DefaultMetadataResolverFactory(scope.getKeysResolver(), scope.getInputResolver(),
                                                                       scope.getOutputResolver(), scope.getAttributesResolver())
         : new NullMetadataResolverFactory();
 
@@ -240,21 +232,4 @@ public class DynamicMetadataModelEnricher extends AbstractAnnotatedModelEnricher
     }
   }
 
-  private Optional<AnnotatedElement> getAnnotatedElement(BaseDeclaration<?> declaration) {
-    final Optional<DeclaringMemberModelProperty> declaringMember =
-        declaration.getModelProperty(DeclaringMemberModelProperty.class);
-    final Optional<ImplementingParameterModelProperty> implementingParameter =
-        declaration.getModelProperty(ImplementingParameterModelProperty.class);
-
-    AnnotatedElement annotatedElement = null;
-    if (declaringMember.isPresent()) {
-      annotatedElement = declaringMember.get().getDeclaringField();
-    }
-
-    if (implementingParameter.isPresent()) {
-      annotatedElement = implementingParameter.get().getParameter();
-    }
-
-    return Optional.ofNullable(annotatedElement);
-  }
 }

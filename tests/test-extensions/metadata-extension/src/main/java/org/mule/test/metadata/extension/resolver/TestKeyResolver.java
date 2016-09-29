@@ -4,28 +4,27 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.test.vegan.extension;
+package org.mule.test.metadata.extension.resolver;
 
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.metadata.MetadataContext;
 import org.mule.runtime.api.metadata.MetadataKey;
-import org.mule.runtime.api.metadata.MetadataKeyBuilder;
 import org.mule.runtime.api.metadata.MetadataResolvingException;
 import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
 
-import com.google.common.collect.ImmutableSet;
-
 import java.util.Set;
 
-public class AppleKeyResolver implements TypeKeysResolver {
+/**
+ * //TODO
+ */
+public class TestKeyResolver implements TypeKeysResolver {
 
-  @Override
-  public Set<MetadataKey> getKeys(MetadataContext context) throws MetadataResolvingException, ConnectionException {
-    return ImmutableSet.of(MetadataKeyBuilder.newKey("APPLE").build());
+  @Override public String getCategoryName() {
+    return "TestKeyResolver";
   }
 
-  @Override
-  public String getCategoryName() {
-    return "AppleKeys";
+  @Override public Set<MetadataKey> getKeys(MetadataContext context)
+    throws MetadataResolvingException, ConnectionException {
+    return TestMetadataResolverUtils.getKeys(context);
   }
 }

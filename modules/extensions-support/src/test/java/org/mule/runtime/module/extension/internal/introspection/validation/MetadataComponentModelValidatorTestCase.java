@@ -23,8 +23,8 @@ import org.mule.runtime.api.metadata.MetadataContext;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataResolvingException;
 import org.mule.runtime.api.metadata.resolving.MetadataAttributesResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataKeysResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataOutputResolver;
+import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
+import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.core.internal.metadata.DefaultMetadataResolverFactory;
 import org.mule.runtime.core.internal.metadata.NullMetadataResolverFactory;
 import org.mule.runtime.extension.api.annotation.Parameter;
@@ -77,10 +77,10 @@ public class MetadataComponentModelValidatorTestCase extends AbstractMuleTestCas
 
   private MetadataComponentModelValidator validator = new MetadataComponentModelValidator();
 
-  public static class SimpleOutputResolver implements MetadataOutputResolver<String>, MetadataAttributesResolver<String> {
+  public static class SimpleOutputResolver implements OutputTypeResolver<String>, MetadataAttributesResolver<String> {
 
     @Override
-    public MetadataType getOutputMetadata(MetadataContext context, String key)
+    public MetadataType getOutputType(MetadataContext context, String key)
         throws MetadataResolvingException, ConnectionException {
       return null;
     }
@@ -97,10 +97,10 @@ public class MetadataComponentModelValidatorTestCase extends AbstractMuleTestCas
     }
   }
 
-  public static class DifferentCategoryResolver implements MetadataKeysResolver {
+  public static class DifferentCategoryResolver implements TypeKeysResolver {
 
     @Override
-    public Set<MetadataKey> getMetadataKeys(MetadataContext context) throws MetadataResolvingException, ConnectionException {
+    public Set<MetadataKey> getKeys(MetadataContext context) throws MetadataResolvingException, ConnectionException {
       return emptySet();
     }
 
@@ -110,10 +110,10 @@ public class MetadataComponentModelValidatorTestCase extends AbstractMuleTestCas
     }
   }
 
-  public static class EmptyCategoryName implements MetadataKeysResolver {
+  public static class EmptyCategoryName implements TypeKeysResolver {
 
     @Override
-    public Set<MetadataKey> getMetadataKeys(MetadataContext context) throws MetadataResolvingException, ConnectionException {
+    public Set<MetadataKey> getKeys(MetadataContext context) throws MetadataResolvingException, ConnectionException {
       return emptySet();
     }
 

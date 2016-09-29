@@ -58,7 +58,7 @@ import static org.mule.runtime.extension.api.introspection.parameter.ExpressionS
  *
  * @since 4.0
  */
-@MetadataScope(contentResolver = BaseDbMetadataResolver.class)
+@MetadataScope(inputResolver = BaseDbMetadataResolver.class)
 public class DmlOperations extends BaseDbOperations {
 
   @Inject
@@ -78,7 +78,7 @@ public class DmlOperations extends BaseDbOperations {
    * @return depending on the value of {@code streaming}, it can be a {@link List} or {@link Iterator} of maps
    * @throws SQLException if an error is produced
    */
-  @MetadataScope(outputResolver = SelectMetadataResolver.class, contentResolver = SelectMetadataResolver.class)
+  @MetadataScope(outputResolver = SelectMetadataResolver.class, inputResolver = SelectMetadataResolver.class)
   public InterceptingCallback<Object> select(@ParameterGroup QueryDefinition query,
                                              @Optional(defaultValue = "false") @Expression(NOT_SUPPORTED) boolean streaming,
                                              @ParameterGroup StatementAttributes statementAttributes,

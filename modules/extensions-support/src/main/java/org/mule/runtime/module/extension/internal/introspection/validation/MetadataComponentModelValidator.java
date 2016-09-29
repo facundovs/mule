@@ -18,8 +18,8 @@ import org.mule.metadata.api.model.DictionaryType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
-import org.mule.runtime.api.metadata.resolving.MetadataOutputResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataResolver;
+import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
+import org.mule.runtime.api.metadata.resolving.NamedTypeResolver;
 import org.mule.runtime.extension.api.ExtensionWalker;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.introspection.ComponentModel;
@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 
 /**
  * Validates that all {@link OperationModel operations} which return type is a {@link Object} or a {@link Map} have defined a
- * {@link MetadataOutputResolver}. The {@link MetadataOutputResolver} can't be the {@link NullMetadataResolver}.
+ * {@link OutputTypeResolver}. The {@link OutputTypeResolver} can't be the {@link NullMetadataResolver}.
  *
  * @since 4.0
  */
@@ -106,18 +106,18 @@ public class MetadataComponentModelValidator implements ModelValidator {
     if (Object.class.equals(returnType)
         && component.getMetadataResolverFactory().getOutputResolver() instanceof NullMetadataResolver) {
       throw new IllegalModelDefinitionException(format("%s '%s' specifies '%s' as a return type. Operations and Sources with "
-          + "return type such as Object or Map must have defined a not null MetadataOutputResolver",
+          + "return type such as Object or Map must have defined a not null OutputTypeResolver",
                                                        component.getName(),
                                                        extensionModel.getName(), returnType.getName()));
     }
   }
 
   private void validateCategories(ComponentModel componentModel, MetadataResolverFactory metadataResolverFactory) {
-    validateCategoryNames(componentModel, metadataResolverFactory.getKeyResolver(), metadataResolverFactory.getContentResolver(),
-                          metadataResolverFactory.getOutputAttributesResolver(), metadataResolverFactory.getOutputResolver());
+    //validateCategoryNames(componentModel, metadataResolverFactory.getKeyResolver(), metadataResolverFactory.getInputResolver(),
+    //                      metadataResolverFactory.getOutputAttributesResolver(), metadataResolverFactory.getOutputResolver());
   }
 
-  private void validateCategoryNames(ComponentModel componentModel, MetadataResolver... resolvers) {
+  private void validateCategoryNames(ComponentModel componentModel, NamedTypeResolver... resolvers) {
     stream(resolvers).filter(r -> isBlank(r.getCategoryName()))
         .findFirst().ifPresent(r -> {
           throw new IllegalModelDefinitionException(
@@ -127,7 +127,7 @@ public class MetadataComponentModelValidator implements ModelValidator {
         });
 
     Set<String> names = stream(resolvers)
-        .map(MetadataResolver::getCategoryName)
+        .map(NamedTypeResolver::getCategoryName)
         .filter(r -> !r.equals(NULL_CATEGORY_NAME))
         .collect(Collectors.toSet());
 
