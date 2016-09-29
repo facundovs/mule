@@ -144,6 +144,7 @@ public class FlowRefFactoryBean extends AbstractAnnotatedObject
   public Processor getObject() throws Exception {
     if (referencedMessageProcessor != null) {
       return new AbstractMessageProcessorChain(singletonList(referencedMessageProcessor)) {
+
         @Override
         public void addMessageProcessorPathElements(MessageProcessorPathElement pathElement) {
           NotificationUtils.addMessageProcessorPathElements(referencedMessageProcessor, pathElement.addChild(this));
