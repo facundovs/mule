@@ -27,6 +27,7 @@ import org.mule.runtime.core.processor.AbstractMessageProcessorOwner;
 import org.mule.runtime.core.processor.AbstractRequestResponseMessageProcessor;
 import org.mule.runtime.core.processor.NonBlockingMessageProcessor;
 import org.mule.runtime.core.session.DefaultMuleSession;
+import org.mule.runtime.core.util.NotificationUtils;
 import org.mule.runtime.core.util.StringUtils;
 
 import java.util.ArrayList;
@@ -158,7 +159,7 @@ public class MessageEnricher extends AbstractMessageProcessorOwner implements No
 
   @Override
   public void addMessageProcessorPathElements(MessageProcessorPathElement pathElement) {
-    ((MessageProcessorContainer) enrichmentProcessor).addMessageProcessorPathElements(pathElement.addChild(this));
+    NotificationUtils.addMessageProcessorPathElements(enrichmentProcessor, pathElement.addChild(this));
   }
 
   /**

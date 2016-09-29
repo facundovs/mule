@@ -32,7 +32,7 @@ public class ExplicitMessageProcessorChainBuilder extends DefaultMessageProcesso
   /**
    * Generates message processor identfiers specific for subflows.
    */
-  static class ExplicitMessageProcessorChain extends DefaultMessageProcessorChain {
+  public static class ExplicitMessageProcessorChain extends DefaultMessageProcessorChain {
 
     ExplicitMessageProcessorChain(String name, Processor head, List<Processor> processors,
                                   List<Processor> processorsForLifecycle) {

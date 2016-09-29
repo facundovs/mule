@@ -37,6 +37,7 @@ import org.mule.runtime.core.config.i18n.I18nMessageFactory;
 import org.mule.runtime.core.exception.MessagingException;
 import org.mule.runtime.core.processor.AbstractMessageProcessorOwner;
 import org.mule.runtime.core.processor.chain.DefaultMessageProcessorChainBuilder;
+import org.mule.runtime.core.processor.chain.ExplicitMessageProcessorChainBuilder;
 import org.mule.runtime.core.routing.outbound.MulticastingRouter;
 import org.mule.runtime.core.session.DefaultMuleSession;
 import org.mule.runtime.core.util.NotificationUtils;
@@ -338,7 +339,10 @@ public class ScatterGatherRouter extends AbstractMessageProcessorOwner implement
   public void addMessageProcessorPathElements(MessageProcessorPathElement pathElement) {
     pathElement = pathElement.addChild(this);
     for (MessageProcessorChain route : routeChains) {
-      NotificationUtils.addMessageProcessorPathElements(route.getMessageProcessors(), pathElement.addChild(route));
+      NotificationUtils.addMessageProcessorPathElements(route,
+                                                        route instanceof ExplicitMessageProcessorChainBuilder.ExplicitMessageProcessorChain
+                                                            ? pathElement
+                                                            : pathElement.addChild(route));
     }
   }
 
