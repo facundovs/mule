@@ -4,10 +4,11 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.extension.http.api.request.validator;
+package org.mule.extension.http.internal.request.validator;
 
 import static java.lang.String.format;
 import org.mule.extension.http.api.HttpResponseAttributes;
+import org.mule.extension.http.api.request.validator.ResponseValidatorException;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.core.api.MuleContext;
 

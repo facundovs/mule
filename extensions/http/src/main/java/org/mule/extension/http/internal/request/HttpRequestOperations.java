@@ -12,16 +12,16 @@ import static org.mule.extension.http.internal.HttpConnector.URL_OVERRIDE_CONFIG
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED;
 
 import org.mule.extension.http.api.HttpResponseAttributes;
-import org.mule.extension.http.api.HttpSendBodyMode;
-import org.mule.extension.http.api.HttpStreamingType;
-import org.mule.extension.http.api.request.builder.HttpRequesterRequestBuilder;
 import org.mule.extension.http.api.request.client.HttpClient;
 import org.mule.extension.http.api.request.client.UriParameters;
 import org.mule.extension.http.api.request.validator.ResponseValidator;
-import org.mule.extension.http.api.request.validator.SuccessStatusCodeValidator;
 import org.mule.extension.http.internal.HttpConnector;
 import org.mule.extension.http.internal.HttpMetadataResolver;
+import org.mule.extension.http.internal.HttpSendBodyMode;
+import org.mule.extension.http.internal.HttpStreamingType;
+import org.mule.extension.http.internal.request.builder.HttpRequesterRequestBuilder;
 import org.mule.extension.http.internal.request.validator.HttpRequesterConfig;
+import org.mule.extension.http.internal.request.validator.SuccessStatusCodeValidator;
 import org.mule.runtime.core.api.MuleContext;
 import org.mule.runtime.core.api.Event;
 import org.mule.runtime.core.api.MuleException;

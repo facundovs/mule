@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.extension.http.api.request.authentication;
+package org.mule.extension.http.internal.request.authentication;
 
 import static org.mule.runtime.module.http.internal.request.HttpAuthenticationType.BASIC;
 import org.mule.runtime.extension.api.annotation.Parameter;

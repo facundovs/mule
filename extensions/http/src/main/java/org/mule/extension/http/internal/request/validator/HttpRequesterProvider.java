@@ -18,13 +18,14 @@ import static org.mule.runtime.core.util.concurrent.ThreadNameHelper.getPrefix;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.module.http.api.HttpConstants.Protocols.HTTP;
 import static org.mule.runtime.module.http.api.HttpConstants.Protocols.HTTPS;
-import org.mule.extension.http.api.request.authentication.HttpAuthentication;
+
 import org.mule.extension.http.api.request.client.HttpClient;
-import org.mule.extension.http.api.request.proxy.ProxyConfig;
+import org.mule.extension.http.internal.request.authentication.HttpAuthentication;
 import org.mule.extension.http.internal.request.client.DefaultUriParameters;
 import org.mule.extension.http.internal.request.client.HttpClientConfiguration;
 import org.mule.extension.http.internal.request.client.HttpClientFactory;
 import org.mule.extension.http.internal.request.grizzly.GrizzlyHttpClient;
+import org.mule.extension.http.internal.request.proxy.ProxyConfig;
 import org.mule.extension.socket.api.socket.tcp.TcpClientSocketProperties;
 import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionException;

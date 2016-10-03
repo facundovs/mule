@@ -10,14 +10,14 @@ import static org.mule.runtime.core.context.notification.ConnectorMessageNotific
 import static org.mule.runtime.core.context.notification.ConnectorMessageNotification.MESSAGE_REQUEST_END;
 import static org.mule.runtime.module.http.api.HttpConstants.Protocols.HTTPS;
 
-import org.mule.extension.http.api.HttpSendBodyMode;
-import org.mule.extension.http.api.HttpStreamingType;
-import org.mule.extension.http.api.request.authentication.HttpAuthentication;
-import org.mule.extension.http.api.request.authentication.UsernamePasswordAuthentication;
-import org.mule.extension.http.api.request.builder.HttpRequesterRequestBuilder;
 import org.mule.extension.http.api.request.client.HttpClient;
 import org.mule.extension.http.api.request.client.UriParameters;
 import org.mule.extension.http.api.request.validator.ResponseValidator;
+import org.mule.extension.http.internal.HttpSendBodyMode;
+import org.mule.extension.http.internal.HttpStreamingType;
+import org.mule.extension.http.internal.request.authentication.HttpAuthentication;
+import org.mule.extension.http.internal.request.authentication.UsernamePasswordAuthentication;
+import org.mule.extension.http.internal.request.builder.HttpRequesterRequestBuilder;
 import org.mule.extension.http.internal.request.validator.HttpRequesterConfig;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.core.api.message.InternalMessage;

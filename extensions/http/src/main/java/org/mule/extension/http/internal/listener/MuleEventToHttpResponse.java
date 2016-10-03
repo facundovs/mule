@@ -7,8 +7,8 @@
 
 package org.mule.extension.http.internal.listener;
 
-import static org.mule.extension.http.api.HttpStreamingType.ALWAYS;
-import static org.mule.extension.http.api.HttpStreamingType.AUTO;
+import static org.mule.extension.http.internal.HttpStreamingType.ALWAYS;
+import static org.mule.extension.http.internal.HttpStreamingType.AUTO;
 import static org.mule.runtime.api.metadata.DataType.BYTE_ARRAY;
 import static org.mule.runtime.api.metadata.DataType.OBJECT;
 import static org.mule.runtime.module.http.api.HttpConstants.HttpStatus.getReasonPhraseForStatusCode;
@@ -16,8 +16,9 @@ import static org.mule.runtime.module.http.api.HttpHeaders.Names.CONTENT_LENGTH;
 import static org.mule.runtime.module.http.api.HttpHeaders.Names.CONTENT_TYPE;
 import static org.mule.runtime.module.http.api.HttpHeaders.Names.TRANSFER_ENCODING;
 import static org.mule.runtime.module.http.api.HttpHeaders.Values.CHUNKED;
-import org.mule.extension.http.api.HttpStreamingType;
-import org.mule.extension.http.api.listener.builder.HttpListenerResponseBuilder;
+
+import org.mule.extension.http.internal.HttpStreamingType;
+import org.mule.extension.http.internal.listener.builder.HttpListenerResponseBuilder;
 import org.mule.runtime.api.message.MultiPartPayload;
 import org.mule.runtime.api.metadata.DataType;
 import org.mule.runtime.api.metadata.MediaType;

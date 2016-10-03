@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.extension.http.api.request.authentication;
+package org.mule.extension.http.internal.request.authentication;
 
 import org.mule.extension.http.internal.request.HttpRequestBuilder;
 import org.mule.runtime.core.api.Event;

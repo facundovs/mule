@@ -11,13 +11,14 @@ import static org.mule.runtime.core.api.lifecycle.LifecycleUtils.startIfNeeded;
 import static org.mule.runtime.core.api.lifecycle.LifecycleUtils.stopIfNeeded;
 import static org.mule.runtime.module.http.api.HttpHeaders.Names.CONNECTION;
 import static org.mule.runtime.module.http.api.HttpHeaders.Values.CLOSE;
-import org.mule.extension.http.api.request.authentication.HttpAuthentication;
+
 import org.mule.extension.http.api.request.client.HttpClient;
 import org.mule.extension.http.api.request.client.UriParameters;
-import org.mule.extension.http.api.request.proxy.NtlmProxyConfig;
-import org.mule.extension.http.api.request.proxy.ProxyConfig;
 import org.mule.extension.http.internal.request.DefaultHttpRequest;
+import org.mule.extension.http.internal.request.authentication.HttpAuthentication;
 import org.mule.extension.http.internal.request.client.HttpClientConfiguration;
+import org.mule.extension.http.internal.request.proxy.NtlmProxyConfig;
+import org.mule.extension.http.internal.request.proxy.ProxyConfig;
 import org.mule.extension.socket.api.socket.tcp.TcpClientSocketProperties;
 import org.mule.runtime.api.tls.TlsContextFactory;
 import org.mule.runtime.api.tls.TlsContextTrustStoreConfiguration;

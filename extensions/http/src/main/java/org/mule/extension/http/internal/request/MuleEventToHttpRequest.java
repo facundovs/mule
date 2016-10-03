@@ -16,10 +16,11 @@ import static org.mule.runtime.module.http.api.HttpHeaders.Names.TRANSFER_ENCODI
 import static org.mule.runtime.module.http.api.HttpHeaders.Values.APPLICATION_X_WWW_FORM_URLENCODED;
 import static org.mule.runtime.module.http.api.HttpHeaders.Values.CHUNKED;
 import static org.mule.runtime.module.http.internal.request.DefaultHttpRequester.DEFAULT_PAYLOAD_EXPRESSION;
-import org.mule.extension.http.api.HttpSendBodyMode;
-import org.mule.extension.http.api.HttpStreamingType;
-import org.mule.extension.http.api.request.authentication.HttpAuthentication;
-import org.mule.extension.http.api.request.builder.HttpRequesterRequestBuilder;
+
+import org.mule.extension.http.internal.HttpSendBodyMode;
+import org.mule.extension.http.internal.HttpStreamingType;
+import org.mule.extension.http.internal.request.authentication.HttpAuthentication;
+import org.mule.extension.http.internal.request.builder.HttpRequesterRequestBuilder;
 import org.mule.extension.http.internal.request.validator.HttpRequesterConfig;
 import org.mule.runtime.api.message.MultiPartPayload;
 import org.mule.runtime.api.metadata.DataType;

@@ -6,10 +6,10 @@
  */
 package org.mule.extension.http.internal.request.client;
 
-import org.mule.extension.http.api.request.authentication.HttpAuthentication;
 import org.mule.extension.http.api.request.client.HttpClient;
 import org.mule.extension.http.api.request.client.UriParameters;
-import org.mule.extension.http.api.request.proxy.ProxyConfig;
+import org.mule.extension.http.internal.request.authentication.HttpAuthentication;
+import org.mule.extension.http.internal.request.proxy.ProxyConfig;
 import org.mule.extension.socket.api.socket.tcp.TcpClientSocketProperties;
 import org.mule.runtime.api.tls.TlsContextFactory;
 

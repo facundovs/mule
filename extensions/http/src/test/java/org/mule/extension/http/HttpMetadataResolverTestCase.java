@@ -10,13 +10,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
-import static org.mule.extension.http.api.HttpMetadataKey.ANY;
-import static org.mule.extension.http.api.HttpMetadataKey.FORM;
-import static org.mule.extension.http.api.HttpMetadataKey.MULTIPART;
-import static org.mule.extension.http.api.HttpMetadataKey.STREAM;
+import static org.mule.extension.http.internal.HttpMetadataKey.ANY;
+import static org.mule.extension.http.internal.HttpMetadataKey.FORM;
+import static org.mule.extension.http.internal.HttpMetadataKey.MULTIPART;
+import static org.mule.extension.http.internal.HttpMetadataKey.STREAM;
 import static org.mule.runtime.api.metadata.MetadataKeyBuilder.newKey;
 
-import org.mule.extension.http.api.HttpMetadataKey;
+import org.mule.extension.http.internal.HttpMetadataKey;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.BinaryType;
 import org.mule.metadata.api.model.DictionaryType;

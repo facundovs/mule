@@ -18,9 +18,9 @@ import static org.mule.runtime.module.http.api.HttpConstants.Protocols.HTTP;
 
 import org.mule.extension.http.api.HttpRequestAttributes;
 import org.mule.extension.http.api.HttpResponseAttributes;
-import org.mule.extension.http.api.HttpStreamingType;
-import org.mule.extension.http.api.listener.builder.HttpListenerResponseBuilder;
 import org.mule.extension.http.internal.HttpMetadataResolver;
+import org.mule.extension.http.internal.HttpStreamingType;
+import org.mule.extension.http.internal.listener.builder.HttpListenerResponseBuilder;
 import org.mule.extension.http.internal.listener.server.HttpListenerConfig;
 import org.mule.runtime.api.execution.CompletionHandler;
 import org.mule.runtime.api.execution.ExceptionCallback;

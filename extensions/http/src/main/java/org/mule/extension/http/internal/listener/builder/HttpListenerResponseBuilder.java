@@ -4,9 +4,9 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.extension.http.api.listener.builder;
+package org.mule.extension.http.internal.listener.builder;
 
-import org.mule.extension.http.api.HttpMessageBuilder;
+import org.mule.extension.http.internal.HttpMessageBuilder;
 import org.mule.runtime.core.api.Event;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Parameter;
