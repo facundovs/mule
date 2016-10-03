@@ -19,8 +19,7 @@ import org.mule.runtime.core.processor.NullMessageProcessor;
 
 import org.junit.Test;
 
-public class
-CompositeMessageProcessorDefinitionParserTestCase extends FunctionalTestCase {
+public class CompositeMessageProcessorDefinitionParserTestCase extends FunctionalTestCase {
 
   @Override
   protected String getConfigFile() {
