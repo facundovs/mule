@@ -10,6 +10,7 @@ import org.mule.runtime.core.api.MuleContext;
 import org.mule.runtime.core.api.construct.FlowConstruct;
 import org.mule.runtime.core.api.lifecycle.InitialisationException;
 import org.mule.runtime.core.processor.chain.DefaultMessageProcessorChainBuilder;
+import org.mule.runtime.core.processor.chain.ExplicitMessageProcessorChainBuilder;
 
 import java.util.List;
 
@@ -42,6 +43,14 @@ public class MessageProcessors {
    */
   public static MessageProcessorChain newChain(List<Processor> processors) {
     return new DefaultMessageProcessorChainBuilder().chain(processors).build();
+  }
+
+  public static MessageProcessorChain newExplicitChain(Processor... processors) {
+    return new ExplicitMessageProcessorChainBuilder().chain(processors).build();
+  }
+
+  public static MessageProcessorChain newExplicitChain(List<Processor> processors) {
+    return new ExplicitMessageProcessorChainBuilder().chain(processors).build();
   }
 
 }

@@ -34,8 +34,8 @@ public class ExplicitMessageProcessorChainBuilder extends DefaultMessageProcesso
    */
   public static class ExplicitMessageProcessorChain extends DefaultMessageProcessorChain {
 
-    ExplicitMessageProcessorChain(String name, Processor head, List<Processor> processors,
-                                  List<Processor> processorsForLifecycle) {
+    protected ExplicitMessageProcessorChain(String name, Processor head, List<Processor> processors,
+                                            List<Processor> processorsForLifecycle) {
       super(name, head, processors, processorsForLifecycle);
     }
 

@@ -240,7 +240,7 @@ public class ProcessorsTraceTestCase extends AbstractIntegrationTestCase {
     assertThat(ProcessorsTraceAsserter.processorsTraceToAssert, not(nullValue()));
 
     assertThat(ProcessorsTraceAsserter.processorsTraceToAssert,
-               hasExecutedProcessors("/subFlowStaticWithEnricher/processors/0",
+               hasExecutedProcessors("/subFlowStaticWithEnricher/processors/0", "/subFlowStaticWithEnricher/processors/0/0",
                                      "/subFlowStaticWithEnricher/processors/0/0/subFlow/subprocessors/0"));
   }
 

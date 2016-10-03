@@ -11,6 +11,7 @@ import static java.lang.String.format;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.core.api.processor.MessageProcessors.newChain;
+import static org.mule.runtime.core.api.processor.MessageProcessors.newExplicitChain;
 import static org.mule.runtime.core.message.DefaultEventBuilder.EventImplementation.setCurrentEvent;
 
 import org.mule.runtime.core.VoidMuleEvent;
@@ -301,10 +302,10 @@ public class ScatterGatherRouter extends AbstractMessageProcessorOwner implement
     Preconditions.checkState(routes.size() > 1, "At least 2 routes are required for ScatterGather");
     routeChains = new ArrayList<>(routes.size());
     for (Processor route : routes) {
-      if (route instanceof MessageProcessorChain) {
+      if (route instanceof ExplicitMessageProcessorChainBuilder.ExplicitMessageProcessorChain) {
         routeChains.add((MessageProcessorChain) route);
       } else {
-        routeChains.add(newChain(route));
+        routeChains.add(newExplicitChain(route));
       }
     }
   }
@@ -339,10 +340,7 @@ public class ScatterGatherRouter extends AbstractMessageProcessorOwner implement
   public void addMessageProcessorPathElements(MessageProcessorPathElement pathElement) {
     pathElement = pathElement.addChild(this);
     for (MessageProcessorChain route : routeChains) {
-      NotificationUtils.addMessageProcessorPathElements(route,
-                                                        route instanceof ExplicitMessageProcessorChainBuilder.ExplicitMessageProcessorChain
-                                                            ? pathElement
-                                                            : pathElement.addChild(route));
+      NotificationUtils.addMessageProcessorPathElements(route, pathElement);
     }
   }
 

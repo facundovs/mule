@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Constructs a custom chain for subflows using the subflow name as the chain name.
  */
-public class SubflowMessageProcessorChainBuilder extends DefaultMessageProcessorChainBuilder {
+public class SubflowMessageProcessorChainBuilder extends ExplicitMessageProcessorChainBuilder {
 
   protected MessageProcessorChain createInterceptingChain(Processor head, List<Processor> processors,
                                                           List<Processor> processorForLifecycle) {
@@ -32,7 +32,7 @@ public class SubflowMessageProcessorChainBuilder extends DefaultMessageProcessor
   /**
    * Generates message processor identfiers specific for subflows.
    */
-  static class SubflowMessageProcessorChain extends DefaultMessageProcessorChain implements SubFlowMessageProcessor {
+  static class SubflowMessageProcessorChain extends ExplicitMessageProcessorChain implements SubFlowMessageProcessor {
 
     private String subFlowName;
 
