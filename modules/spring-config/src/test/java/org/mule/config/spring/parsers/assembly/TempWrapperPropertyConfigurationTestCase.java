@@ -24,7 +24,8 @@ public class TempWrapperPropertyConfigurationTestCase extends AbstractBaseProper
     public void testTempWrapper()
     {
         PropertyConfiguration reference = new SimplePropertyConfiguration();
-        setTestValues(REFERENCE, reference); // as normal
+
+    	setTestValues(REFERENCE, reference); // as normal
         PropertyConfiguration wrapper = new TempWrapperPropertyConfiguration(reference);
         verifyTestValues(REFERENCE, wrapper); // transparent wrapper
         setTestValues(WRAPPER, wrapper); // add extra values
