@@ -214,7 +214,7 @@ public class DefaultMuleConfiguration implements MuleConfiguration, MuleContextA
         this.containerMode = containerMode;
 
         // Apply any settings which come from the JVM system properties.
-        applySystemProperties();
+       // applySystemProperties();
 
         if (id == null)
         {
@@ -294,11 +294,11 @@ public class DefaultMuleConfiguration implements MuleConfiguration, MuleContextA
         {
             systemModelType = p;
         }
-        p = System.getProperty(MuleProperties.SYSTEM_PROPERTY_PREFIX + "timeout.synchronous");
-        if (p != null)
-        {
-            responseTimeout = NumberUtils.toInt(p);
-        }
+//        p = System.getProperty(MuleProperties.SYSTEM_PROPERTY_PREFIX + "timeout.synchronous");
+//        if (p != null)
+//        {
+//            responseTimeout = NumberUtils.toInt(p);
+//        }
         p = System.getProperty(MuleProperties.SYSTEM_PROPERTY_PREFIX + "timeout.transaction");
         if (p != null)
         {

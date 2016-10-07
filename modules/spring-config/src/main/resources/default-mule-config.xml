@@ -6,7 +6,7 @@
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
 
-
+	
     <model name="_muleSystemModel"/>
 
     <spring:beans>
@@ -44,7 +44,7 @@
         <spring:bean name="_muleMessageProcessingFlowTraceManager" class="org.mule.context.notification.MessageProcessingFlowTraceManager"/>
 
     </spring:beans>
-
+    
     <!-- Default Transformers are now loaded from META-INF/services/org/mule/config/registry-bootstrap.properties so that
     the transformers will be available even when using the TransientRegistry only -->
 

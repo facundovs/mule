@@ -69,7 +69,6 @@ import org.apache.commons.logging.LogFactory;
  * implementation provides services to test code for creating mock and test objects.
  * @deprecated Use {@link org.mule.tck.junit4.AbstractMuleTestCase}
  */
-@Deprecated
 public abstract class AbstractMuleTestCase extends TestCase implements TestCaseWatchdogTimeoutHandler
 {
 

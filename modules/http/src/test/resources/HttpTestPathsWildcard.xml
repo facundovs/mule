@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:mule-ss="http://www.mulesoft.org/schema/mule/spring-security" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:ss="http://www.springframework.org/schema/security" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:ws="http://www.mulesoft.org/schema/mule/ws" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http 
+http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+http://www.mulesoft.org/schema/mule/ws http://www.mulesoft.org/schema/mule/ws/current/mule-ws.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/spring-security http://www.mulesoft.org/schema/mule/spring-security/current/mule-spring-security.xsd
+http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd" >
+    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
+    <flow name="taxes-main-v1" processingStrategy="synchronous">
+        <http:listener path="/*" config-ref="HTTP_Listener_Configuration" doc:name="HTTP"/>
+        <logger level="INFO" doc:name="Log Flow Start"  message="taxes-main-v1 ~  Request URI: #[message.inboundProperties['http.request.uri']] | Listener Path :/*" />
+        <set-payload value="V1 Flow invoked" doc:name="Set Payload"/>
+    </flow>
+    <flow name="taxes-main-v2" processingStrategy="synchronous">
+        <http:listener path="v2/*" config-ref="HTTP_Listener_Configuration" doc:name="HTTP"/>
+        <logger level="INFO" doc:name="Log Flow Start"  message="taxes-main-v2 ~  Request URI: #[message.inboundProperties['http.request.uri']] | | Listener Path :v2/*" />
+        <set-payload value="v2 flow invoked" doc:name="Set Payload"/>
+    </flow>
+        <flow name="HealthcheckV2" >
+        <http:listener config-ref="HTTP_Listener_Configuration" path="v2/taxes/healthcheck" allowedMethods="GET" doc:name="HTTP"/>
+        <logger message="Healthcheckv2 ~  Request URI:  #[message.inboundProperties['http.request.uri']]  | Listener Path :v2/taxes/healthcheck" level="INFO"  doc:name="Log Flow Start"/>
+        <set-payload value="V2 - Healthcheck" doc:name="Set Live!"/>
+    </flow>
+</mule>

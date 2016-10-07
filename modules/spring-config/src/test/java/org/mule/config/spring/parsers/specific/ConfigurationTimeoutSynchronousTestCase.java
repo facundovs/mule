@@ -23,8 +23,8 @@ public class ConfigurationTimeoutSynchronousTestCase extends AbstractMuleTestCas
 	@Test
     public void testConfigurationTimeoutWithSystemPropertiesAndXMLFile() throws Exception
     {
-		System.clearProperty(MuleProperties.SYSTEM_PROPERTY_PREFIX + "timeout.synchronous");
-		System.setProperty(MuleProperties.SYSTEM_PROPERTY_PREFIX + "timeout.synchronous", "40000");
+//		System.clearProperty(MuleProperties.SYSTEM_PROPERTY_PREFIX + "timeout.synchronous");
+//		System.setProperty(MuleProperties.SYSTEM_PROPERTY_PREFIX + "timeout.synchronous", "40000");
         muleContext = new DefaultMuleContextFactory().createMuleContext("config-timeout.xml");
         muleContext.start();
         MuleConfiguration config = muleContext.getConfiguration();
@@ -36,8 +36,8 @@ public class ConfigurationTimeoutSynchronousTestCase extends AbstractMuleTestCas
 	@Test
     public void testConfigurationTimeoutWithSystemPropertiesAndWithoutXMLFile() throws Exception
     {
-		System.clearProperty(MuleProperties.SYSTEM_PROPERTY_PREFIX + "timeout.synchronous");
-		System.setProperty(MuleProperties.SYSTEM_PROPERTY_PREFIX + "timeout.synchronous", "40000");
+//		System.clearProperty(MuleProperties.SYSTEM_PROPERTY_PREFIX + "timeout.synchronous");
+//		System.setProperty(MuleProperties.SYSTEM_PROPERTY_PREFIX + "timeout.synchronous", "40000");
         muleContext = new DefaultMuleContextFactory().createMuleContext("config-timeout2.xml");
         muleContext.start();
         MuleConfiguration config = muleContext.getConfiguration();
@@ -48,7 +48,7 @@ public class ConfigurationTimeoutSynchronousTestCase extends AbstractMuleTestCas
 	@Test
     public void testDefaultConfiguration() throws Exception
     {
-		System.clearProperty(MuleProperties.SYSTEM_PROPERTY_PREFIX + "timeout.synchronous");
+		//System.clearProperty(MuleProperties.SYSTEM_PROPERTY_PREFIX + "timeout.synchronous");
 		muleContext = new DefaultMuleContextFactory().createMuleContext("config-timeout2.xml");
         muleContext.start();
         MuleConfiguration config = muleContext.getConfiguration();
