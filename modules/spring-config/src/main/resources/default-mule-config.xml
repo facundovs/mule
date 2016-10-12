@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:spring="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:spring="http://www.springframework.org/schema/beans"
+      xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
 
-	
+
     <model name="_muleSystemModel"/>
 
     <spring:beans>
@@ -44,7 +44,11 @@
         <spring:bean name="_muleMessageProcessingFlowTraceManager" class="org.mule.context.notification.MessageProcessingFlowTraceManager"/>
 
     </spring:beans>
-    
+
+    <!-- TODO: REF:SE-3093 (begin) -->
+    <configuration defaultTransactionTimeout="${mule.timeout.transaction}" defaultResponseTimeout="${mule.timeout.synchronous}"/>
+    <!-- TODO: REF:SE-3093 (end) -->
+
     <!-- Default Transformers are now loaded from META-INF/services/org/mule/config/registry-bootstrap.properties so that
     the transformers will be available even when using the TransientRegistry only -->
 

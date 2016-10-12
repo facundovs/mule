@@ -6,23 +6,6 @@
  */
 package org.mule.config;
 
-import org.mule.api.MuleContext;
-import org.mule.api.config.MuleConfiguration;
-import org.mule.api.config.MuleProperties;
-import org.mule.api.context.MuleContextAware;
-import org.mule.api.lifecycle.FatalException;
-import org.mule.api.lifecycle.Initialisable;
-import org.mule.api.lifecycle.Startable;
-import org.mule.api.processor.ProcessingStrategy;
-import org.mule.api.serialization.ObjectSerializer;
-import org.mule.config.i18n.CoreMessages;
-import org.mule.construct.Flow;
-import org.mule.util.FileUtils;
-import org.mule.util.NetworkUtils;
-import org.mule.util.NumberUtils;
-import org.mule.util.StringUtils;
-import org.mule.util.UUID;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -39,6 +22,21 @@ import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.mule.api.MuleContext;
+import org.mule.api.config.MuleConfiguration;
+import org.mule.api.config.MuleProperties;
+import org.mule.api.context.MuleContextAware;
+import org.mule.api.lifecycle.FatalException;
+import org.mule.api.lifecycle.Initialisable;
+import org.mule.api.lifecycle.Startable;
+import org.mule.api.processor.ProcessingStrategy;
+import org.mule.api.serialization.ObjectSerializer;
+import org.mule.config.i18n.CoreMessages;
+import org.mule.construct.Flow;
+import org.mule.util.FileUtils;
+import org.mule.util.NetworkUtils;
+import org.mule.util.StringUtils;
+import org.mule.util.UUID;
 
 /**
  * Configuration info. which can be set when creating the MuleContext but becomes
@@ -51,7 +49,7 @@ public class DefaultMuleConfiguration implements MuleConfiguration, MuleContextA
 
     public static final String[] DEFAULT_STACKTRACE_FILTER = (
             "org.mule.processor.AbstractInterceptingMessageProcessor," +
-            "org.mule.processor.chain")
+                    "org.mule.processor.chain")
             .split(",");
 
     /**
@@ -170,7 +168,7 @@ public class DefaultMuleConfiguration implements MuleConfiguration, MuleContextA
     private boolean useExtendedTransformations = DEFAULT_TRANSFORMATION_RESOLVE_NON_DIRECT;
 
     private boolean flowEndingWithOneWayEndpointReturnsNull;
-    
+
     private boolean enricherPropagatesSessionVariableChanges;
 
     /**
@@ -214,7 +212,7 @@ public class DefaultMuleConfiguration implements MuleConfiguration, MuleContextA
         this.containerMode = containerMode;
 
         // Apply any settings which come from the JVM system properties.
-       // applySystemProperties();
+        // applySystemProperties();
 
         if (id == null)
         {
@@ -274,7 +272,6 @@ public class DefaultMuleConfiguration implements MuleConfiguration, MuleContextA
     protected void applySystemProperties()
     {
         String p;
-
         p = System.getProperty(MuleProperties.MULE_ENCODING_SYSTEM_PROPERTY);
         if (p != null)
         {
@@ -294,16 +291,18 @@ public class DefaultMuleConfiguration implements MuleConfiguration, MuleContextA
         {
             systemModelType = p;
         }
+        //TODO: REF:SE-3093 (begin)
 //        p = System.getProperty(MuleProperties.SYSTEM_PROPERTY_PREFIX + "timeout.synchronous");
 //        if (p != null)
 //        {
 //            responseTimeout = NumberUtils.toInt(p);
 //        }
-        p = System.getProperty(MuleProperties.SYSTEM_PROPERTY_PREFIX + "timeout.transaction");
-        if (p != null)
-        {
-            defaultTransactionTimeout = NumberUtils.toInt(p);
-        }
+//        p = System.getProperty(MuleProperties.SYSTEM_PROPERTY_PREFIX + "timeout.transaction");
+//        if (p != null)
+//        {
+//            defaultTransactionTimeout = NumberUtils.toInt(p);
+//        }
+        //TODO: REF:SE-3093 (end)
 
         p = System.getProperty(MuleProperties.SYSTEM_PROPERTY_PREFIX + "workingDirectory");
         if (p != null)
@@ -380,12 +379,12 @@ public class DefaultMuleConfiguration implements MuleConfiguration, MuleContextA
             disableTimeouts = Boolean.valueOf(p);
         }
     }
-    
+
     public static boolean isVerboseExceptions()
     {
         return verboseExceptions || logger.isDebugEnabled();
     }
-    
+
     /**
      * @return {@code true} if the log is set to debug or if the system property {@code mule.flowTrace} is set to
      *         {@code true}. {@code false} otherwise.
@@ -420,7 +419,7 @@ public class DefaultMuleConfiguration implements MuleConfiguration, MuleContextA
         if (f == null || f.getClass().getName().indexOf("crimson") != -1)
         {
             throw new FatalException(CoreMessages.valueIsInvalidFor(f.getClass().getName(),
-                "javax.xml.parsers.SAXParserFactory"), this);
+                    "javax.xml.parsers.SAXParserFactory"), this);
         }
     }
 
@@ -470,7 +469,7 @@ public class DefaultMuleConfiguration implements MuleConfiguration, MuleContextA
             catch (IOException e)
             {
                 throw new IllegalArgumentException(CoreMessages.initialisationFailure(
-                    "Invalid working directory").getMessage(), e);
+                        "Invalid working directory").getMessage(), e);
             }
         }
     }
@@ -769,7 +768,7 @@ public class DefaultMuleConfiguration implements MuleConfiguration, MuleContextA
     {
         this.defaultExceptionStrategyName = defaultExceptionStrategyName;
     }
-    
+
     @Override
     public boolean isEnricherPropagatesSessionVariableChanges()
     {
