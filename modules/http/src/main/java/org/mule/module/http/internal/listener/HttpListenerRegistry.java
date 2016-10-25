@@ -201,7 +201,7 @@ public class HttpListenerRegistry implements RequestHandlerProvider
             {
                 final PathMap pathMap = foundPaths.pop();
                 List<RequestHandlerMatcherPair> requestHandlerMatcherPairs = pathMap.getRequestHandlerMatcherPairs();
-                if(requestHandlerMatcherPair==null && pathMap.getCatchAllPathMap() !=null){
+                if(requestHandlerMatcherPairs ==null && pathMap.getCatchAllPathMap() !=null){
                 	requestHandlerMatcherPairs = pathMap.getCatchAllPathMap().requestHandlerMatcherPairs;
                 }
                 requestHandlerMatcherPair = findRequestHandlerMatcherPair(requestHandlerMatcherPairs, request);
